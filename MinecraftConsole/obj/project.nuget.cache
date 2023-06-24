@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "kZck3HGw091PPX6nbuOzfeYOuLmi7/DZMmjqczHr0WdgFxHr6F/7X4VYXj0nDgjD4Z+XRaTjBdCDtmozvSvQag==",
+  "success": true,
+  "projectFilePath": "D:\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\simsi\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "C:\\Users\\simsi\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
