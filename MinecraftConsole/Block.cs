@@ -27,14 +27,17 @@ namespace MinecraftConsole
 
         public static List<Block> List = new List<Block>()
         {
-            new Block("Air", ItemType.None, 0, true),
+            new Block("None", ItemType.None, 0, false),
+            new Block("Air", ItemType.None, int.MaxValue, true),
             new Block("Grass", ItemType.Shovel, 2, false),
             new Block("Dirt", ItemType.Shovel, 1, false),
-            new Block("Stone", ItemType.Pickaxe, 2, false)
+            new Block("Stone", ItemType.Pickaxe, 2, false),
+            new Block("Bedrock", ItemType.None, int.MaxValue, false)
         };
 
         public static Block ByName(string name)
         {
+
             foreach (Block listBlock in List)
             {
                 if (listBlock.Name == name)

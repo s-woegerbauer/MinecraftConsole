@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj": {}
+    "D:\\GitHub\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj": {}
   },
   "projects": {
-    "D:\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj": {
+    "D:\\GitHub\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj",
+        "projectUniqueName": "D:\\GitHub\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj",
         "projectName": "MinecraftConsole",
-        "projectPath": "D:\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj",
+        "projectPath": "D:\\GitHub\\MinecraftConsole\\MinecraftConsole\\MinecraftConsole.csproj",
         "packagesPath": "C:\\Users\\simsi\\.nuget\\packages\\",
-        "outputPath": "D:\\MinecraftConsole\\MinecraftConsole\\obj\\",
+        "outputPath": "D:\\GitHub\\MinecraftConsole\\MinecraftConsole\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\simsi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -61,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

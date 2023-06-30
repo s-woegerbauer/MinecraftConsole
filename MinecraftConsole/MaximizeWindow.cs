@@ -23,6 +23,7 @@ namespace MinecraftConsole
         public static void Go()
         {
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             ShowWindow(ThisConsole, MAXIMIZE);
         }
     }

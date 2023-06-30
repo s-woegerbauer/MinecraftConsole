@@ -14,14 +14,14 @@ namespace MinecraftConsole
 
         public World(int sizeX)
         {
-            Blocks = new Block[60, sizeX];
+            Blocks = new Block[24, sizeX];
         }
 
         public static World GenerateNewWorld(int sizeX, Player player)
         {
             World world = new World(sizeX);
 
-            for (int y = 0; y < 12; y++)
+            for (int y = 0; y < 10; y++)
             {
                 for (int x = 0; x < sizeX; x++)
                 {
@@ -31,10 +31,10 @@ namespace MinecraftConsole
 
             for (int x = 0; x < sizeX; x++)
             {
-                world.Blocks[12, x] = Block.ByName("Grass");
+                world.Blocks[10, x] = Block.ByName("Grass");
             }
 
-            for (int y = 13; y < 17; y++)
+            for (int y = 11; y < 14; y++)
             {
                 for (int x = 0; x < sizeX; x++)
                 {
@@ -42,7 +42,7 @@ namespace MinecraftConsole
                 }
             }
 
-            for (int y = 17; y < 30; y++)
+            for (int y = 14; y < 23; y++)
             {
                 for (int x = 0; x < sizeX; x++)
                 {
@@ -50,14 +50,19 @@ namespace MinecraftConsole
                 }
             }
 
+            for(int x = 0; x < sizeX; x++)
+            {
+                world.Blocks[23, x] = Block.ByName("Bedrock");
+            }
+
             world.Players.Add(player);
 
             return world;
         }
 
-        public void Draw()
+        public void Draw(bool drawPlayer)
         {
-            for (int y = 0; y < 30; y++)
+            for (int y = 0; y < 24; y++)
             {
                 for (int x = 0; x < Blocks.GetLength(1); x++)
                 {
@@ -65,11 +70,28 @@ namespace MinecraftConsole
                 }
             }
 
-            for (int i = 0; i < Players.Count; i++)
+            if (drawPlayer)
             {
-                WinAPI.DrawImage(Players.ElementAt(i).PlayerFilePath, 4, 2, 4 * Players.ElementAt(i).X + 1, 2 * Players.ElementAt(i).Y + 1);
+                for (int i = 0; i < Players.Count; i++)
+                {
+                    WinAPI.DrawImage(Players.ElementAt(i).PlayerFilePath, 4, 2, 4 * Players.ElementAt(i).X + 1, 2 * Players.ElementAt(i).Y + 1);
+                }
             }
         }
 
+        public void Refresh()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if (i == 7)
+                {
+                    Draw(true);
+                }
+                else
+                {
+                    Draw(false);
+                }
+            }
+        }
     }
 }
