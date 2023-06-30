@@ -167,16 +167,19 @@ namespace MinecraftConsole
 
                 }
 
-                if (!world.Blocks[Y + 1, X].IsAir && world.Blocks[Y - 1, X].IsAir)
+                if (Y - 1 >= 0)
                 {
-                    Program.IsChangingTexture = true;
-                    WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * X + 1, 2 * Y + 1);
-                    Y--;
-                    WinAPI.DrawImage(PlayerFilePath, 4, 2, 4 * X + 1, 2 * Y + 1);
-                    Program.IsChangingTexture = false;
-                    await Task.Delay(200);
-                    Program.IsChangingTexture = false;
-                    await Task.Run(() => Fall(world));
+                    if (!world.Blocks[Y + 1, X].IsAir && world.Blocks[Y - 1, X].IsAir)
+                    {
+                        Program.IsChangingTexture = true;
+                        WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * X + 1, 2 * Y + 1);
+                        Y--;
+                        WinAPI.DrawImage(PlayerFilePath, 4, 2, 4 * X + 1, 2 * Y + 1);
+                        Program.IsChangingTexture = false;
+                        await Task.Delay(200);
+                        Program.IsChangingTexture = false;
+                        await Task.Run(() => Fall(world));
+                    }
                 }
 
                 Program.IsAlreadyJumping = false;
