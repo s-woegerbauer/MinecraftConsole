@@ -14,14 +14,14 @@ namespace MinecraftConsole
 
         public World(int sizeX)
         {
-            Blocks = new Block[24, sizeX];
+            Blocks = new Block[18, sizeX];
         }
 
         public static World GenerateNewWorld(int sizeX, Player player)
         {
             World world = new World(sizeX);
 
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < sizeX; x++)
                 {
@@ -31,10 +31,10 @@ namespace MinecraftConsole
 
             for (int x = 0; x < sizeX; x++)
             {
-                world.Blocks[10, x] = Block.ByName("Grass");
+                world.Blocks[6, x] = Block.ByName("Grass");
             }
 
-            for (int y = 11; y < 14; y++)
+            for (int y = 7; y < 10; y++)
             {
                 for (int x = 0; x < sizeX; x++)
                 {
@@ -42,7 +42,7 @@ namespace MinecraftConsole
                 }
             }
 
-            for (int y = 14; y < 23; y++)
+            for (int y = 10; y < 17; y++)
             {
                 for (int x = 0; x < sizeX; x++)
                 {
@@ -52,7 +52,7 @@ namespace MinecraftConsole
 
             for(int x = 0; x < sizeX; x++)
             {
-                world.Blocks[23, x] = Block.ByName("Bedrock");
+                world.Blocks[17, x] = Block.ByName("Bedrock");
             }
 
             world.Players.Add(player);
@@ -62,7 +62,7 @@ namespace MinecraftConsole
 
         public void Draw(bool drawPlayer)
         {
-            for (int y = 0; y < 24; y++)
+            for (int y = 0; y < 18; y++)
             {
                 for (int x = 0; x < Blocks.GetLength(1); x++)
                 {

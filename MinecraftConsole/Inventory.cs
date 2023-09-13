@@ -60,15 +60,54 @@ namespace MinecraftConsole
         }
 
 
-        public void Draw()
+        public void Draw(Player player)
         {
             for(int i = 0; i < 9; i++)
             {
                 if (Hotbar[i].Count > 0)
                 {
-                    WinAPI.DrawImage(Hotbar[i][0].TexturePath, 4, 2, 1 + i * 4, 50);
+                    if (player.HotbarSlot == i)
+                    {
+                        WinAPI.DrawImage("\\Textures\\Current_Slot.jpg", 8, 5, 1 + i * 8, 45);
+                        WinAPI.DrawImage(ConvertPath(Hotbar[i][0].TexturePath), 6, 3, 2 + i * 8, 46);
+                    }
+                    else
+                    {
+                        WinAPI.DrawImage(ConvertPath(Hotbar[i][0].TexturePath), 8, 5, 1 + i * 8, 45);
+                    }
                 }
+                else
+                {
+                    if (player.HotbarSlot == i)
+                    {
+                        WinAPI.DrawImage("\\Textures\\Current_Slot.jpg", 8, 5, 1 + i * 8, 45);
+                    }
+                    else
+                    {
+                        WinAPI.DrawImage("\\Textures\\None_Slot.jpg", 8, 5, 1 + i * 8, 45);
+                    }
+                }
+
+                Console.SetCursorPosition((int) Math.Round(i * 6.75) + 3, 40);
+                Console.Write(i + 1);
             }
+        }
+
+        private static string ConvertPath(string currentPath)
+        {
+            string newPath = string.Empty;
+
+            foreach(char ch in currentPath)
+            {
+                if(ch == '.')
+                {
+                    return newPath + "_Slot.jpg";
+                }
+
+                newPath += ch;
+            }
+
+            return newPath;
         }
     }
 }

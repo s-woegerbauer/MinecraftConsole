@@ -53,7 +53,7 @@
                 {
                     world = player.BreakBlock(world);
                     Task.Run(() => player.Fall(world));
-                    player.Inventory.Draw();
+                    player.Inventory.Draw(player);
                 }
                 else if(key == Controls.Refresh)
                 {
