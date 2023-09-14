@@ -28,7 +28,7 @@ namespace MinecraftConsole
             Gamemode = Gamemode.Survival;
             PlayerFilePath = "\\Textures\\Player.jpg";
             X = 10;
-            Y = 9;
+            Y = 5;
             CurrentDirection = 1;
         }
 
@@ -82,6 +82,7 @@ namespace MinecraftConsole
                 }
             }
 
+            Inventory.Draw(this);
             return world;
         }
 
@@ -89,38 +90,50 @@ namespace MinecraftConsole
         {
             if(CurrentDirection == 0)
             {
-                if (world.Blocks[Y - 1, X].Hardness != int.MaxValue)
+                if(Y - 1 >= 0)
                 {
-                    Inventory.Add(world.Blocks[Y - 1, X].DropItem);
-                    world.Blocks[Y - 1, X] = Block.ByName("Air");
-                    WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * X + 1, 2 * (Y - 1) + 1);
+                    if (world.Blocks[Y - 1, X].Hardness != int.MaxValue)
+                    {
+                        Inventory.Add(world.Blocks[Y - 1, X].DropItem);
+                        world.Blocks[Y - 1, X] = Block.ByName("Air");
+                        WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * X + 1, 2 * (Y - 1) + 1);
+                    }
                 }
             }
             else if(CurrentDirection == 1)
             {
-                if (world.Blocks[Y, X + 1].Hardness != int.MaxValue)
+                if (world.Blocks.GetLength(1) < X + 1)
                 {
-                    Inventory.Add(world.Blocks[Y, X + 1].DropItem);
-                    world.Blocks[Y, X + 1] = Block.ByName("Air");
-                    WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * (X + 1) + 1, 2 * Y + 1);
+                    if (world.Blocks[Y, X + 1].Hardness != int.MaxValue)
+                    {
+                        Inventory.Add(world.Blocks[Y, X + 1].DropItem);
+                        world.Blocks[Y, X + 1] = Block.ByName("Air");
+                        WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * (X + 1) + 1, 2 * Y + 1);
+                    }
                 }
             }
             else if (CurrentDirection == 2)
             {
-                if (world.Blocks[Y + 1, X].Hardness != int.MaxValue)
+                if (world.Blocks.GetLength(0) < Y + 1)
                 {
-                    Inventory.Add(world.Blocks[Y + 1, X].DropItem);
-                    world.Blocks[Y + 1, X] = Block.ByName("Air");
-                    WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * X + 1, 2 * (Y + 1) + 1);
+                    if (world.Blocks[Y + 1, X].Hardness != int.MaxValue)
+                    {
+                        Inventory.Add(world.Blocks[Y + 1, X].DropItem);
+                        world.Blocks[Y + 1, X] = Block.ByName("Air");
+                        WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * X + 1, 2 * (Y + 1) + 1);
+                    }
                 }
             }
             else if (CurrentDirection == 3)
             {
-                if (world.Blocks[Y, X - 1].Hardness != int.MaxValue)
+                if (X - 1 >= 0)
                 {
-                    Inventory.Add(world.Blocks[Y, X - 1].DropItem);
-                    world.Blocks[Y, X - 1] = Block.ByName("Air");
-                    WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * (X - 1) + 1, 2 * Y + 1);
+                    if (world.Blocks[Y, X - 1].Hardness != int.MaxValue)
+                    {
+                        Inventory.Add(world.Blocks[Y, X - 1].DropItem);
+                        world.Blocks[Y, X - 1] = Block.ByName("Air");
+                        WinAPI.DrawImage("\\Textures\\Air.jpg", 4, 2, 4 * (X - 1) + 1, 2 * Y + 1);
+                    }
                 }
             }
 

@@ -93,5 +93,10 @@ namespace MinecraftConsole
                 }
             }
         }
+
+        private void AddTrees()
+        {
+
+        }
     }
 }

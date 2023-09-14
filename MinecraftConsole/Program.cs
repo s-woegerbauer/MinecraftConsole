@@ -66,14 +66,47 @@
                 else if(key == Controls.HotbarSlotOne)
                 {
                     player.HotbarSlot = 0;
+                    player.Inventory.Draw(player);
                 }
                 else if (key == Controls.HotbarSlotTwo)
                 {
                     player.HotbarSlot = 1;
+                    player.Inventory.Draw(player);
                 }
                 else if (key == Controls.HotbarSlotThree)
                 {
                     player.HotbarSlot = 2;
+                    player.Inventory.Draw(player);
+                }
+                else if (key == Controls.HotbarSlotFour)
+                {
+                    player.HotbarSlot = 3;
+                    player.Inventory.Draw(player);
+                }
+                else if (key == Controls.HotbarSlotFive)
+                {
+                    player.HotbarSlot = 4;
+                    player.Inventory.Draw(player);
+                }
+                else if (key == Controls.HotbarSlotSix)
+                {
+                    player.HotbarSlot = 5;
+                    player.Inventory.Draw(player);
+                }
+                else if (key == Controls.HotbarSlotSeven)
+                {
+                    player.HotbarSlot = 6;
+                    player.Inventory.Draw(player);
+                }
+                else if (key == Controls.HotbarSlotEight)
+                {
+                    player.HotbarSlot = 7;
+                    player.Inventory.Draw(player);
+                }
+                else if (key == Controls.HotbarSlotNine)
+                {
+                    player.HotbarSlot = 8;
+                    player.Inventory.Draw(player);
                 }
             }
         }
