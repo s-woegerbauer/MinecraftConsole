@@ -10,7 +10,7 @@ namespace MinecraftConsole
     public class Player
     {
         public string Name { get; set; }
-        public int Health { get; set; }
+        public HeartBar HealthBar { get; set; }
         public Inventory Inventory { get; set; }
         public int HotbarSlot { get; set; }
         public Gamemode Gamemode { get; set; }
@@ -22,7 +22,7 @@ namespace MinecraftConsole
         public Player(string name)
         {
             Name = name;
-            Health = 20;
+            HealthBar = new HeartBar();
             Inventory = new Inventory();
             HotbarSlot = 0;
             Gamemode = Gamemode.Survival;
@@ -102,7 +102,7 @@ namespace MinecraftConsole
             }
             else if(CurrentDirection == 1)
             {
-                if (world.Blocks.GetLength(1) < X + 1)
+                if (world.Blocks.GetLength(1) >= X + 1)
                 {
                     if (world.Blocks[Y, X + 1].Hardness != int.MaxValue)
                     {
@@ -114,7 +114,7 @@ namespace MinecraftConsole
             }
             else if (CurrentDirection == 2)
             {
-                if (world.Blocks.GetLength(0) < Y + 1)
+                if (world.Blocks.GetLength(0) >= Y + 1)
                 {
                     if (world.Blocks[Y + 1, X].Hardness != int.MaxValue)
                     {
@@ -226,14 +226,15 @@ namespace MinecraftConsole
                 await Task.Delay(delay);
             }
 
-            int reduceHealth = timesFallen - 4;
+            double reduceHealth = (timesFallen * 1.2) - 4;
 
             if(reduceHealth < 0)
             {
                 reduceHealth = 0;
             }
 
-            Health -= reduceHealth;
+            HealthBar.currentHealth -= reduceHealth;
+            HealthBar.Draw();
         }
     }
 }

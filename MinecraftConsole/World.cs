@@ -92,6 +92,9 @@ namespace MinecraftConsole
                     Draw(false);
                 }
             }
+
+            this.Players[0].HealthBar.Draw();
+            this.Players[0].Inventory.Draw(this.Players[0]);
         }
 
         private void AddTrees()

@@ -5,6 +5,7 @@
         public static bool IsChangingTexture = false;
         public static bool IsAlreadyJumping = false;
         public static DateTime Jump = DateTime.Now;
+        public static Player player = new Player("Player1");
         public static void Main(string[] args)
         {
             Console.BackgroundColor = ConsoleColor.Black;
@@ -12,7 +13,7 @@
             Thread.Sleep(400);
             Console.CursorVisible = false;
             MaximizeWindow.Go();
-            Player player = new Player("Player1");
+            Task.Run(() => Regeneration.Go(1000));
             World world = World.GenerateNewWorld(35, player);
             world.Refresh();
             
