@@ -8,6 +8,7 @@ namespace MinecraftConsole
 {
     public static class Controls
     {
+        public static ConsoleKey Menu = ConsoleKey.Escape;
         public static ConsoleKey MoveLeft = ConsoleKey.A;
         public static ConsoleKey MoveRight = ConsoleKey.D;
         public static ConsoleKey LookUp = ConsoleKey.W;

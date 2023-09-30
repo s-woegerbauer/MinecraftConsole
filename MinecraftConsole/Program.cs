@@ -2,26 +2,34 @@
 {
     public class Program
     {
+        public static ConsoleColor MenuColor = ConsoleColor.Green;
         public static bool IsChangingTexture = false;
         public static bool IsAlreadyJumping = false;
         public static DateTime Jump = DateTime.Now;
-        public static Player player = new Player("Player1");
+        public static Player player = new Player("player1");
+        public static World currentChunk = new World(35);
+
         public static void Main(string[] args)
         {
+            Console.CursorVisible = false;
+            MaximizeWindow.Go();
+            Menu.Main.Go();
+        }
+
+        public static void StartWorld(World world, string worldName)
+        {
+            currentChunk = world;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Clear();
             Thread.Sleep(400);
-            Console.CursorVisible = false;
-            MaximizeWindow.Go();
             Task.Run(() => Regeneration.Go(1000));
-            World world = World.GenerateNewWorld(35, player);
             world.Refresh();
-            
-            while(true)
+
+            while (true)
             {
                 ConsoleKey key = Console.ReadKey(intercept: true).Key;
 
-                if(key == Controls.MoveLeft)
+                if (key == Controls.MoveLeft)
                 {
                     player.CurrentDirection = 3;
                     Task.Run(() => player.Move(-1, world));
@@ -42,7 +50,7 @@
                         Task.Run(() => player.Jump(world));
                     }
                 }
-                else if(key == Controls.LookUp)
+                else if (key == Controls.LookUp)
                 {
                     player.CurrentDirection = 0;
                 }
@@ -50,21 +58,21 @@
                 {
                     player.CurrentDirection = 2;
                 }
-                else if(key == Controls.BreakBlock)
+                else if (key == Controls.BreakBlock)
                 {
                     world = player.BreakBlock(world);
                     Task.Run(() => player.Fall(world));
                     player.Inventory.Draw(player);
                 }
-                else if(key == Controls.Refresh)
+                else if (key == Controls.Refresh)
                 {
                     world.Refresh();
                 }
-                else if(key == Controls.Place)
+                else if (key == Controls.Place)
                 {
                     player.PlaceBlock(world);
                 }
-                else if(key == Controls.HotbarSlotOne)
+                else if (key == Controls.HotbarSlotOne)
                 {
                     player.HotbarSlot = 0;
                     player.Inventory.Draw(player);
@@ -108,6 +116,10 @@
                 {
                     player.HotbarSlot = 8;
                     player.Inventory.Draw(player);
+                }
+                else if (key == Controls.Menu)
+                {
+                    Menu.Pause.Go(worldName, player, world);
                 }
             }
         }

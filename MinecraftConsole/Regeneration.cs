@@ -8,19 +8,33 @@ namespace MinecraftConsole
 {
     public static class Regeneration
     {
+        private static bool NaturalRegeneration = true;
         public static void Go(int delayInMs)
         {
             while (true)
             {
-                Task.Delay(delayInMs).Wait();
-                Program.player.HealthBar.currentHealth += 0.5;
-                if (Program.player.HealthBar.currentHealth > Program.player.HealthBar.maxHealth)
+                if (NaturalRegeneration)
                 {
-                    Program.player.HealthBar.currentHealth = Program.player.HealthBar.maxHealth;
-                }
+                    Task.Delay(delayInMs).Wait();
+                    Program.player.HealthBar.currentHealth += 0.5;
+                    if (Program.player.HealthBar.currentHealth > Program.player.HealthBar.maxHealth)
+                    {
+                        Program.player.HealthBar.currentHealth = Program.player.HealthBar.maxHealth;
+                    }
 
-                Program.player.HealthBar.Draw();
+                    Program.player.HealthBar.Draw();
+                }
             }
+        }
+
+        public static void Disable()
+        {
+            NaturalRegeneration = false;
+        }
+
+        public static void Enable()
+        {
+            NaturalRegeneration = true;
         }
     }
 }

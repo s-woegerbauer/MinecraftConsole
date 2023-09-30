@@ -18,6 +18,7 @@ namespace MinecraftConsole
         public int Y { get; set; }
         public string PlayerFilePath { get; set; }
         public int CurrentDirection { get; set; }
+        public int CurrentChunk { get; set; }
 
         public Player(string name)
         {
@@ -30,6 +31,7 @@ namespace MinecraftConsole
             X = 10;
             Y = 5;
             CurrentDirection = 1;
+            CurrentChunk = 0;
         }
 
         public World PlaceBlock(World world)
