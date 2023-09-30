@@ -2,5 +2,5 @@ name=player1
 currentHealth=10
 maxHealth=10
 currentChunk=0
-location=33;16
+location=10;16
 gamemode=0

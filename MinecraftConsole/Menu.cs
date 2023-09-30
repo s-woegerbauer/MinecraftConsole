@@ -4,11 +4,63 @@ namespace MinecraftConsole
 {
     public static class Menu
     {
-        public static class Options
+        public static class Settings
         {
             public static void Go()
             {
 
+            }
+        }
+
+        public static class Control
+        {
+            public static void Go(string worldName, Player player, World world)
+            {
+                List<Tuple<string, List<Action>, ConsoleColor>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor>>();
+
+                foreach (ConsoleKey key in Controls.ControlKeys.Keys)
+                {
+                    menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>(Controls.ControlKeys[key], new List<Action>
+                    {
+                       () => Controls.Change(key)
+                    }, ConsoleColor.Magenta));
+                }
+
+                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>("Back", new List<Action>
+                {
+                    () => Options.Go(worldName, player, world),
+                }, ConsoleColor.Green));
+
+                MenuPreset menu = new MenuPreset(menuItems, 0);
+                menu.Go();
+                Options.Go(worldName, player, world);
+            }
+        }
+
+        public static class Options
+        {
+            public static void Go(string worldName, Player player, World world)
+            {
+                List<Tuple<string, List<Action>, ConsoleColor>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor>>
+                {
+                    new Tuple<string, List<Action>, ConsoleColor>("Controls", new List<Action>
+                    {
+                        () => Control.Go(worldName, player, world),
+                    }, ConsoleColor.Green),
+
+                    new Tuple<string, List<Action>, ConsoleColor>("Settings", new List<Action>
+                    {
+                        () => Settings.Go(),
+                    }, ConsoleColor.Blue),
+
+                    new Tuple<string, List<Action>, ConsoleColor>("Back", new List<Action>
+                    {
+                        () => Pause.Go(worldName, player, world),
+                    }, ConsoleColor.Red)
+                };
+
+                MenuPreset menu = new MenuPreset(menuItems, 0);
+                menu.Go();
             }
         }
 
@@ -26,7 +78,7 @@ namespace MinecraftConsole
 
                     new Tuple<string, List<Action>, ConsoleColor>("Options", new List<Action>
                     {
-                        () => Options.Go(),
+                        () => Options.Go(worldName, player, world),
                     }, ConsoleColor.Blue),
 
                     new Tuple<string, List<Action>, ConsoleColor>("Main Menu", new List<Action>
@@ -42,6 +94,7 @@ namespace MinecraftConsole
             public static void Save(string worldName, Player player)
             {
                 Helper.CreateSaveFile(worldName);
+                Helper.WriteSettings();
                 Helper.WritePlayerDetails(worldName, player);
                 Helper.WriteWorldDetails(worldName, Program.currentChunk);
             }
@@ -71,7 +124,12 @@ namespace MinecraftConsole
                 menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>("Create New World", new List<Action>
                 {
                     () => CreateNewWorld()
-                }, ConsoleColor.Blue)); 
+                }, ConsoleColor.Blue));
+
+                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>("Quit Game", new List<Action>
+                {
+                    () => Leave()
+                }, ConsoleColor.Red));
 
                 MenuPreset mainMenu = new MenuPreset(menuItems, 0);
                 mainMenu.Go();
@@ -85,6 +143,7 @@ namespace MinecraftConsole
                     {
                         Player player = new Player("player" + 1);
                         World world = World.GenerateNewWorld(35, player);
+                        Program.currentChunk = world;
                         Pause.Save("NewWorld" + i, player);
                         Program.StartWorld(world, "NewWorld" + i);
                     }
@@ -99,6 +158,7 @@ namespace MinecraftConsole
                 }
                 else
                 {
+                    Helper.ReadSettings();
                     Player player = Helper.LoadPlayer(worldName);
                     World world = Helper.LoadWorldDetails(worldName);
                     world.Players.Add(player);
@@ -118,7 +178,7 @@ namespace MinecraftConsole
         {
             public static bool CheckVersion(string worldName)
             {
-                return File.ReadAllText($"{Directory.GetCurrentDirectory()}\\Saves\\{worldName}\\version.txt") == "version=beta_2.0";
+                return File.ReadAllText($"{Directory.GetCurrentDirectory()}\\Saves\\{worldName}\\version.txt") == "version=beta_2.1";
             }
 
             public static void WritePlayerDetails(string worldName, Player player)
@@ -279,6 +339,30 @@ namespace MinecraftConsole
                 File.WriteAllText($"{Directory.GetCurrentDirectory()}\\Saves\\{worldName}\\Player\\inventory.csv", text);
             }
 
+            public static void ReadSettings()
+            {
+                List<string> settings = File.ReadAllLines($"{Directory.GetCurrentDirectory()}\\settings.txt").ToList();
+
+                foreach(string line in settings)
+                {
+                    string value = line.Split('=')[0];
+                    ConsoleKey key = Controls.GetKeyByValue(value);
+                    Controls.ChangeKey(value, key);
+                }
+            }
+
+            public static void WriteSettings()
+            {
+                List<string> settings = new List<string>();
+
+                foreach(KeyValuePair<ConsoleKey, string> keyName in Controls.ControlKeys)
+                {
+                    settings.Add($"{keyName.Value}={keyName.Key}");
+                }
+
+                File.WriteAllLines($"{Directory.GetCurrentDirectory()}\\settings.txt", settings);
+            }
+
             public static void CreateSaveFile(string worldName)
             {
                 if(!Directory.Exists(Directory.GetCurrentDirectory() + "\\Saves\\" + worldName))
@@ -300,7 +384,7 @@ namespace MinecraftConsole
                 {
                     FileStream fs =  File.Create(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\version.txt");
                     fs.Close();
-                    File.WriteAllText(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\version.txt", "version=beta_2.0");
+                    File.WriteAllText(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\version.txt", "version=beta_2.1");
                 }
 
                 if (!File.Exists(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\Player\\info.txt"))
@@ -318,6 +402,12 @@ namespace MinecraftConsole
                 if (!File.Exists(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\Chunks\\0.csv"))
                 {
                     FileStream fs = File.Create(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\Chunks\\0.csv");
+                    fs.Close();
+                }
+
+                if (!File.Exists(Directory.GetCurrentDirectory() + $"\\settings.txt"))
+                {
+                    FileStream fs = File.Create(Directory.GetCurrentDirectory() + $"\\settings.txt");
                     fs.Close();
                 }
             }

@@ -34,9 +34,9 @@ namespace MinecraftConsole
                 else if (pressed == ConsoleKey.DownArrow)
                 {
                     Current++;
-                    if (Current > 2)
+                    if (Current >= List!.Count)
                     {
-                        Current = 2;
+                        Current = List.Count;
                     }
                 }
                 else if (pressed == ConsoleKey.UpArrow)

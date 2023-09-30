@@ -1,6 +1,0 @@
-name=player1
-currentHealth=10
-maxHealth=10
-currentChunk=0
-location=15;11
-gamemode=0
