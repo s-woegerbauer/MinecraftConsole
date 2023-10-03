@@ -8,10 +8,10 @@ namespace MinecraftConsole
 {
     public class MenuPreset
     {
-        public List<Tuple<string, List<Action>, ConsoleColor>>? List { get; set; }
+        public List<Tuple<string, List<Action>, ConsoleColor, bool>>? List { get; set; }
         private int Current = 0;
 
-        public MenuPreset(List<Tuple<string, List<Action>, ConsoleColor>> list, int current)
+        public MenuPreset(List<Tuple<string, List<Action>, ConsoleColor, bool>> list, int current)
         {
             List = list;
             Current = current;
@@ -36,7 +36,7 @@ namespace MinecraftConsole
                     Current++;
                     if (Current >= List!.Count)
                     {
-                        Current = List.Count;
+                        Current = List.Count - 1;
                     }
                 }
                 else if (pressed == ConsoleKey.UpArrow)
@@ -45,6 +45,15 @@ namespace MinecraftConsole
                     if (Current < 0)
                     {
                         Current = 0;
+                    }
+                }
+                else if (pressed == Controls.Remove)
+                {
+                    if (List![0].Item4)
+                    {
+                        string name = List[Current].Item1;
+                        List!.RemoveAt(Current);
+                        Directory.Delete($"{Directory.GetCurrentDirectory()}\\Saves\\{name}", true);
                     }
                 }
             }
@@ -58,7 +67,7 @@ namespace MinecraftConsole
         private void Write()
         {
             Console.Clear();
-            foreach(Tuple<string, List<Action>, ConsoleColor> line in List!)
+            foreach(Tuple<string, List<Action>, ConsoleColor, bool> line in List!)
             {
                 if(List.IndexOf(line) == Current)
                 {

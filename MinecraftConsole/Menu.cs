@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 
 namespace MinecraftConsole
 {
@@ -6,9 +7,24 @@ namespace MinecraftConsole
     {
         public static class Settings
         {
-            public static void Go()
+            public static void Go(string worldName, Player player, World world)
             {
+                List<Tuple<string, List<Action>, ConsoleColor, bool>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor, bool>>
+                {
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Developer Mode", new List<Action>
+                    {
+                        () => Program.DeveloperMode = !Program.DeveloperMode,
+                    }, ConsoleColor.Green, false),
 
+                    new Tuple< string, List < Action >, ConsoleColor, bool >("Back", new List<Action>
+                    {
+                        () => Options.Go(worldName, player, world),
+                    }, ConsoleColor.Red, false),
+                };
+
+                MenuPreset menu = new MenuPreset(menuItems, 0);
+                menu.Go();
+                Options.Go(worldName, player, world);
             }
         }
 
@@ -16,20 +32,20 @@ namespace MinecraftConsole
         {
             public static void Go(string worldName, Player player, World world)
             {
-                List<Tuple<string, List<Action>, ConsoleColor>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor>>();
+                List<Tuple<string, List<Action>, ConsoleColor, bool>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor, bool>>();
 
                 foreach (ConsoleKey key in Controls.ControlKeys.Keys)
                 {
-                    menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>(Controls.ControlKeys[key], new List<Action>
+                    menuItems.Add(new Tuple<string, List<Action>, ConsoleColor, bool>(Controls.ControlKeys[key], new List<Action>
                     {
                        () => Controls.Change(key)
-                    }, ConsoleColor.Magenta));
+                    }, ConsoleColor.Magenta, false));
                 }
 
-                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>("Back", new List<Action>
+                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor, bool>("Back", new List<Action>
                 {
                     () => Options.Go(worldName, player, world),
-                }, ConsoleColor.Green));
+                }, ConsoleColor.Green, false));
 
                 MenuPreset menu = new MenuPreset(menuItems, 0);
                 menu.Go();
@@ -41,22 +57,22 @@ namespace MinecraftConsole
         {
             public static void Go(string worldName, Player player, World world)
             {
-                List<Tuple<string, List<Action>, ConsoleColor>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor>>
+                List<Tuple<string, List<Action>, ConsoleColor, bool>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor, bool>>
                 {
-                    new Tuple<string, List<Action>, ConsoleColor>("Controls", new List<Action>
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Controls", new List<Action>
                     {
                         () => Control.Go(worldName, player, world),
-                    }, ConsoleColor.Green),
+                    }, ConsoleColor.Green, false),
 
-                    new Tuple<string, List<Action>, ConsoleColor>("Settings", new List<Action>
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Settings", new List<Action>
                     {
-                        () => Settings.Go(),
-                    }, ConsoleColor.Blue),
+                        () => Settings.Go(worldName, player, world),
+                    }, ConsoleColor.Blue, false),
 
-                    new Tuple<string, List<Action>, ConsoleColor>("Back", new List<Action>
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Back", new List<Action>
                     {
                         () => Pause.Go(worldName, player, world),
-                    }, ConsoleColor.Red)
+                    }, ConsoleColor.Red, false)
                 };
 
                 MenuPreset menu = new MenuPreset(menuItems, 0);
@@ -68,23 +84,23 @@ namespace MinecraftConsole
         {
             public static void Go(string worldName, Player player, World world)
             {
-                List<Tuple<string, List<Action>, ConsoleColor>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor>>
+                List<Tuple<string, List<Action>, ConsoleColor, bool>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor, bool>>
                 {
-                    new Tuple<string, List<Action>, ConsoleColor>("Resume", new List<Action>
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Resume", new List<Action>
                     {
                         () => Regeneration.Enable(),
                         () => Program.StartWorld(world, worldName),
-                    }, ConsoleColor.Green),
+                    }, ConsoleColor.Green, false),
 
-                    new Tuple<string, List<Action>, ConsoleColor>("Options", new List<Action>
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Options", new List<Action>
                     {
                         () => Options.Go(worldName, player, world),
-                    }, ConsoleColor.Blue),
+                    }, ConsoleColor.Blue, false),
 
-                    new Tuple<string, List<Action>, ConsoleColor>("Main Menu", new List<Action>
+                    new Tuple<string, List<Action>, ConsoleColor, bool>("Main Menu", new List<Action>
                     {
                         () => Leave(worldName, player),
-                    }, ConsoleColor.Red)
+                    }, ConsoleColor.Red, false)
                 };
 
                 MenuPreset menu = new MenuPreset(menuItems, 0);
@@ -96,7 +112,7 @@ namespace MinecraftConsole
                 Helper.CreateSaveFile(worldName);
                 Helper.WriteSettings();
                 Helper.WritePlayerDetails(worldName, player);
-                Helper.WriteWorldDetails(worldName, Program.currentChunk);
+                Helper.WriteWorldDetails(worldName, Program.CurrentChunk);
             }
 
             public static void Leave(string worldName, Player player)
@@ -111,25 +127,25 @@ namespace MinecraftConsole
         {
             public static void Go()
             {
-                List<Tuple<string, List<Action>, ConsoleColor>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor>>();
+                List<Tuple<string, List<Action>, ConsoleColor, bool>> menuItems = new List<Tuple<string, List<Action>, ConsoleColor, bool>>();
 
                 foreach(string fileName in Directory.GetDirectories(Directory.GetCurrentDirectory() + "\\Saves"))
                 {
-                    menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>(fileName.Split('\\')[^1], new List<Action>
+                    menuItems.Add(new Tuple<string, List<Action>, ConsoleColor, bool>(fileName.Split('\\')[^1], new List<Action>
                     {
                         () => Load(fileName.Split('\\')[^1])
-                    }, ConsoleColor.Green));
+                    }, ConsoleColor.Green, true));
                 }
 
-                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>("Create New World", new List<Action>
+                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor, bool>("Create New World", new List<Action>
                 {
                     () => CreateNewWorld()
-                }, ConsoleColor.Blue));
+                }, ConsoleColor.Blue, false));
 
-                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor>("Quit Game", new List<Action>
+                menuItems.Add(new Tuple<string, List<Action>, ConsoleColor, bool>("Quit Game", new List<Action>
                 {
                     () => Leave()
-                }, ConsoleColor.Red));
+                }, ConsoleColor.Red, false));
 
                 MenuPreset mainMenu = new MenuPreset(menuItems, 0);
                 mainMenu.Go();
@@ -139,11 +155,11 @@ namespace MinecraftConsole
             {
                 for(int i = 0; i < int.MaxValue; i++)
                 {
-                    if(!File.Exists(Directory.GetCurrentDirectory() + "\\Saves\\NewWorld" + i))
+                    if(!Directory.Exists(Directory.GetCurrentDirectory() + "\\Saves\\NewWorld" + i))
                     {
                         Player player = new Player("player" + 1);
                         World world = World.GenerateNewWorld(35, player);
-                        Program.currentChunk = world;
+                        Program.CurrentChunk = world;
                         Pause.Save("NewWorld" + i, player);
                         Program.StartWorld(world, "NewWorld" + i);
                     }
@@ -163,7 +179,7 @@ namespace MinecraftConsole
                     World world = Helper.LoadWorldDetails(worldName);
                     world.Players.Add(player);
 
-                    Program.player = player;
+                    Program.Player = player;
                     Program.StartWorld(world, worldName);
                 }
             }
@@ -178,7 +194,7 @@ namespace MinecraftConsole
         {
             public static bool CheckVersion(string worldName)
             {
-                return File.ReadAllText($"{Directory.GetCurrentDirectory()}\\Saves\\{worldName}\\version.txt") == "version=beta_2.1";
+                return File.ReadAllText($"{Directory.GetCurrentDirectory()}\\Saves\\{worldName}\\version.txt") == "version=beta_2.2";
             }
 
             public static void WritePlayerDetails(string worldName, Player player)
@@ -343,7 +359,10 @@ namespace MinecraftConsole
             {
                 List<string> settings = File.ReadAllLines($"{Directory.GetCurrentDirectory()}\\settings.txt").ToList();
 
-                foreach(string line in settings)
+                Program.DeveloperMode = settings.Any(s => s.StartsWith("developerMode"));
+                settings = settings.Where(s => !s.StartsWith("developerMode")).ToList();
+
+                foreach (string line in settings)
                 {
                     string value = line.Split('=')[0];
                     ConsoleKey key = Controls.GetKeyByValue(value);
@@ -359,6 +378,8 @@ namespace MinecraftConsole
                 {
                     settings.Add($"{keyName.Value}={keyName.Key}");
                 }
+
+                settings.Add($"developerMode={Program.DeveloperMode}");
 
                 File.WriteAllLines($"{Directory.GetCurrentDirectory()}\\settings.txt", settings);
             }
@@ -384,7 +405,7 @@ namespace MinecraftConsole
                 {
                     FileStream fs =  File.Create(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\version.txt");
                     fs.Close();
-                    File.WriteAllText(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\version.txt", "version=beta_2.1");
+                    File.WriteAllText(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\version.txt", "version=beta_2.2");
                 }
 
                 if (!File.Exists(Directory.GetCurrentDirectory() + $"\\Saves\\{worldName}\\Player\\info.txt"))

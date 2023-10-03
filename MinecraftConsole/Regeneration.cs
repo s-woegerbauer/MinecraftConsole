@@ -16,13 +16,13 @@ namespace MinecraftConsole
                 if (NaturalRegeneration)
                 {
                     Task.Delay(delayInMs).Wait();
-                    Program.player.HealthBar.currentHealth += 0.5;
-                    if (Program.player.HealthBar.currentHealth > Program.player.HealthBar.maxHealth)
+                    Program.Player.HealthBar.currentHealth += 0.5;
+                    if (Program.Player.HealthBar.currentHealth > Program.Player.HealthBar.maxHealth)
                     {
-                        Program.player.HealthBar.currentHealth = Program.player.HealthBar.maxHealth;
+                        Program.Player.HealthBar.currentHealth = Program.Player.HealthBar.maxHealth;
                     }
 
-                    Program.player.HealthBar.Draw();
+                    Program.Player.HealthBar.Draw();
                 }
             }
         }

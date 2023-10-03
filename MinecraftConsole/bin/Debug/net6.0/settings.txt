@@ -17,3 +17,4 @@ HotbarSlotThree=D3
 HotbarSlotTwo=D2
 HotbarSlotOne=D1
 Remove=X
+developerMode=False
